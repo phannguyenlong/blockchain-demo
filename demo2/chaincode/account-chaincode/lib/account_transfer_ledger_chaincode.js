@@ -2,11 +2,13 @@
  * List of all funcion
  * createAccount(ctx, accountID, bank, balance, owner)
  * ReadAccount(ctx, id)
+ * ReadAccountBySession(ctx, session)
  * GetAllAccount(ctx)
  * AccountExists(ctx, id)
  * DeleteAccount(ctx, id)
  * TransferMoney(ctx, buyerID, ownerID, amount
  * GetAccountHistory(ctx, assetName)
+ * UpdateAccountSession(ctx, accountID, session)
  */
 
 'use strict';
@@ -52,6 +54,19 @@ class Chaincode extends Contract {
 		const accountJSON = await this.QuerryAccount(ctx, JSON.stringify(queryString)); // get the asset from chaincode state
 		if (!accountJSON || accountJSON.length === 0) {
 			throw new Error(`Account ${id} does not exist`);
+		}
+
+		return JSON.parse(accountJSON);
+	}
+
+	async ReadAccountBySession(ctx, session) {
+		let queryString = {}
+        queryString.selector = {}
+		queryString.selector.docType = "account"
+		queryString.selector.session = session
+		const accountJSON = await this.QuerryAccount(ctx, JSON.stringify(queryString)); // get the asset from chaincode state
+		if (!accountJSON || accountJSON.length === 0) {
+			throw new Error(`Account does not exist`);
 		}
 
 		return JSON.parse(accountJSON);
@@ -134,6 +149,22 @@ class Chaincode extends Contract {
 		}
 	}
 	
+	// Update session for accont when login
+	async UpdateAccountSession(ctx, accountID, session) {
+		let account = await ctx.stub.getState(accountID)
+		try {
+			account = JSON.parse(account.toString())
+		} catch (err) {
+			throw new Error("Errorr: " + err)
+		}
+		account.session = session
+		try {
+			await ctx.stub.putState(accountID, Buffer.from(JSON.stringify(account)))
+		} catch (err) {
+			throw new Error(err)
+		}
+	}
+
 	// GetAssetHistory returns the chain of custody for an asset since issuance.
 	async GetAccountHistory(ctx, assetName) {
 

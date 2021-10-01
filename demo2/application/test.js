@@ -34,11 +34,11 @@ async function main() {
         const contract = network.getContract(chaincodeName)
         
         // test
-        // console.log('\n--> Evaluate Transaction: InitLedger');
-        // await contract.submitTransaction('InitLedger');
-
         console.log('\n--> Evaluate Transaction: InitLedger');
-        let result = await contract.evaluateTransaction('GetAssetHistory', 'asset1');
+        await contract.submitTransaction('InitLedger');
+
+        // console.log('\n--> Evaluate Transaction: InitLedger');
+        // let result = await contract.evaluateTransaction('GetAssetHistory', 'asset1');
 
         // console.log('\n--> Evaluate Transaction: InitLedger');
         // let result = await contract.submitTransaction('QueryAssetsByOwner', 'account2');
