@@ -41,18 +41,18 @@ async function main() {
 		const wallet = await buildWallet(Wallets, walletPath);
 
 		// in a real application this would be done on an administrative flow, and only once
-		// await enrollAdmin(caClient, wallet, mspOrg1);
+		await enrollAdmin(caClient, wallet, mspOrg1);
 
 		// in a real application this would be done only when a new user was required to be added
 		// and would be part of an administrative flow
-		// await registerAndEnrollUser(caClient, wallet, mspOrg1, userId, 'org1.department1'); // use for running app
+		await registerAndEnrollUser(caClient, wallet, mspOrg1, userId, 'org1.department1'); // use for running app
 
-		// await regsiterUser(caClient, wallet, mspOrg1, 'account1', 'password1', 'org1.department1')
-		// await regsiterUser(caClient, wallet, mspOrg1, 'account2', 'password2', 'org1.department1')
-		// await regsiterUser(caClient, wallet, mspOrg1, 'account3', 'password3', 'org1.department1')
+		await regsiterUser(caClient, wallet, mspOrg1, 'account1', 'password1', 'org1.department1')
+		await regsiterUser(caClient, wallet, mspOrg1, 'account2', 'password2', 'org1.department1')
+		await regsiterUser(caClient, wallet, mspOrg1, 'account3', 'password3', 'org1.department1')
 
 
-		secret = await enrollUser(caClient, wallet, mspOrg1, 'account1', 'password1', 'bbbbb');
+		// secret = await enrollUser(caClient, wallet, mspOrg1, 'account1', 'password1', 'bbbbb');
 
 	} catch (error) {
 		console.error(`******** FAILED to run the application: ${error}`);

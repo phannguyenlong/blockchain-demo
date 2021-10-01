@@ -5,7 +5,7 @@ const { buildCAClient, registerAndEnrollUser, enrollAdmin } = require('../../tes
 const { buildCCPOrg1, buildWallet, prettyJSONString } = require('../../test-application/javascript/AppUtil.js');
 
 const channelName = 'mychannel';
-const chaincodeName = 'account';
+const chaincodeName = 'asset';
 const mspOrg1 = 'Org1MSP';
 const walletPath = path.join(__dirname, 'wallet');
 const org1UserId = 'test';
@@ -34,11 +34,11 @@ async function main() {
         const contract = network.getContract(chaincodeName)
         
         // test
-        console.log('\n--> Evaluate Transaction: InitLedger');
-        await contract.submitTransaction('InitLedger');
-
         // console.log('\n--> Evaluate Transaction: InitLedger');
-        // let result = await contract.submitTransaction('createAccount', 'account4', 'a', 1000, 'a');
+        // await contract.submitTransaction('InitLedger');
+
+        console.log('\n--> Evaluate Transaction: InitLedger');
+        let result = await contract.evaluateTransaction('GetAssetHistory', 'asset1');
 
         // console.log('\n--> Evaluate Transaction: InitLedger');
         // let result = await contract.submitTransaction('QueryAssetsByOwner', 'account2');
@@ -50,7 +50,7 @@ async function main() {
         // queryString.selector = {}
         // queryString.selector.docType = "asset"
         // result = await contract.evaluateTransaction("QueryAssets", JSON.stringify(queryString))
-        // console.log(JSON.parse(result.toString()))
+        console.log(JSON.parse(result.toString()))
     } catch (err) {
         console.error("error: " + err)
     } finally {
